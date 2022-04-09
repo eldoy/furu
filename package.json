@@ -1,0 +1,19 @@
+{
+  "name": "libwork",
+  "version": "0.1.0",
+  "description": "Libwork",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vidar Eldøy <vidar@eldoy.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bparse": "^0.1.9",
+    "kross": "^0.2.0",
+    "rekvest": "^0.1.4",
+    "smor": "^0.1.0",
+    "wcookie": "^0.4.1",
+    "ws": "^8.5.0"
+  }
+}
