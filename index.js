@@ -26,6 +26,10 @@ async function httpRequest(req, res) {
     return res.end('')
   }
 
+  if (req.method == 'POST') {
+    await parser(req)
+  }
+
   // Cookies
   cookie(req)
 
