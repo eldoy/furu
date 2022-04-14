@@ -24,8 +24,6 @@ function furu(opt = {}) {
     opt.port = process.env.FURU_PORT || 9000
   }
 
-  let callback
-
   const server = http.createServer(httpRequest)
 
   // Set up web socket for development
@@ -66,7 +64,6 @@ function furu(opt = {}) {
 
     if (typeof data == 'undefined') {
       data = ''
-      res.statusCode = 404
 
     } else if (typeof data == 'object') {
       setContentType(res, 'application/json')
