@@ -6,19 +6,13 @@ const parser = require('bparse')
 const cookie = require('wcookie')
 const ws = require('ws')
 
-// FEATURE: Should be able to test and build routes without a web server
-
-// TODO: Return types / content types
-// TODO: Routes
-// TODO: Websocket support (at least for development)
-
 function setContentType(res, type) {
   if (!res.hasHeader('content-type')) {
     res.setHeader('content-type', `${type}; charset=utf-8`)
   }
 }
 
-function furu(opt = {}) {
+module.exports = function(opt = {}) {
 
   if (typeof opt.port == 'undefined') {
     opt.port = process.env.FURU_PORT || 9000
@@ -26,8 +20,10 @@ function furu(opt = {}) {
 
   const server = http.createServer(httpRequest)
 
+  const dev = ['dev', 'development'].includes(process.env.NODE_ENV)
+
   // Set up web socket for development
-  if (process.env.NODE_ENV == 'dev') {
+  if (dev) {
     new ws.Server({ server })
   }
 
@@ -95,5 +91,3 @@ function furu(opt = {}) {
   })
 
 }
-
-module.exports = furu

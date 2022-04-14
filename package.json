@@ -1,10 +1,9 @@
 {
   "name": "furu",
   "version": "0.1.0",
-  "description": "Extremely minimal Web App Development Framework",
+  "description": "Extremely minimal Web Server",
   "main": "index.js",
   "scripts": {
-    "serve:test": "FURU_PORT=9090 nodemon index.js",
     "test": "nodemon spec/index.js"
   },
   "author": "Vidar Eldøy <vidar@eldoy.com>",
