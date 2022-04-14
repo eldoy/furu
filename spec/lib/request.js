@@ -5,9 +5,10 @@ const OPTIONS = {
   port: '9090',
   path: '/',
   method: 'POST',
-  headers: {
-    'accept': 'application/json'
-  }
+  // Example for headers:
+  // headers: {
+  //   'accept': 'application/json'
+  // }
 }
 
 module.exports = function(options) {
@@ -22,11 +23,16 @@ module.exports = function(options) {
       })
 
       res.on('close', function() {
-        resolve({
-          res,
-          code: res.statusCode,
-          data: data ? JSON.parse(data) : {}
-        })
+        const type = res.headers['content-type']
+        if (type.startsWith('application/json')) {
+          try {
+            data = JSON.parse(data)
+          } catch(e) {
+            data = {}
+          }
+        }
+        const code = res.statusCode
+        resolve({ res, code, data })
       })
     }
 
