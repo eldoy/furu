@@ -6,6 +6,8 @@ const parser = require('bparse')
 const cookie = require('wcookie')
 const ws = require('ws')
 
+const PORT = process.env.FURU_PORT || 9000
+
 // FEATURE: Should be able to test and build routes without a web server
 
 // TODO: Return types / content types
@@ -15,6 +17,8 @@ const ws = require('ws')
 async function httpRequest(req, res) {
   // Add properties to request
   request(req)
+
+  // FEATURE: Block favicon requests
 
   // Cors
   // TODO: Allow options
@@ -48,7 +52,9 @@ async function httpRequest(req, res) {
     res.setHeader('set-cookie', req.cookieJar.headers)
   }
 
-  res.end('hello')
+  const data = JSON.stringify({ hello: 'world' })
+
+  res.end(data)
 }
 
 const server = http.createServer(httpRequest)
@@ -58,4 +64,6 @@ if (process.env.NODE_ENV == 'dev') {
   new ws.Server({ server })
 }
 
-server.listen(9000)
+server.listen(PORT, function() {
+  console.log(`Web server listening on port ${PORT}`)
+})
