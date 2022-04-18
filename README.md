@@ -15,7 +15,8 @@ async function handleRequest(req, res) {
   }
 }
 
-const server = await furu({ port: 9000 }, handleRequest)
+// The server object is a vanilla NodeJS HTTP server
+const server = furu({ port: 9000 }, handleRequest)
 ```
 
 ISC Licensed. Enjoy!
