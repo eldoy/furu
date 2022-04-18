@@ -9,15 +9,13 @@ npm i furu
 
 ### Usage
 ```js
-const server = await furu({ port: 9000 })
-
 async function handleRequest(req, res) {
   if (req.pathname == '/hello') {
     return { hello: 'world' }
   }
 }
 
-server.on('request', handleRequest)
+const server = await furu({ port: 9000 }, handleRequest)
 ```
 
 ISC Licensed. Enjoy!
