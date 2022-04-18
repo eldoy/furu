@@ -1,7 +1,7 @@
 {
   "name": "furu",
   "version": "0.1.0",
-  "description": "Extremely minimal Web Server",
+  "description": "Extraordinary Web Server",
   "main": "index.js",
   "scripts": {
     "test": "nodemon spec/index.js"
@@ -15,5 +15,9 @@
     "smor": "^0.1.0",
     "wcookie": "^0.4.1",
     "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "spekky": "^0.1.2",
+    "spett": "^0.1.0"
   }
 }

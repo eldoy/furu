@@ -1,9 +1,13 @@
+const assert = require('assert')
+const request = require('spett')
+
 const it = {}
 
-it['should do some stuff'] = async function({ test, request }) {
+it['should do some stuff'] = async function() {
   const { data, code } = await request({ path: '/hello'})
-  test.deepEqual(code, 200)
-  test.deepEqual(data.hello, 'world')
+  assert.deepEqual(code, 200)
+  console.log(data)
+  assert.deepEqual(data.hello, 'world')
 }
 
 module.exports = it

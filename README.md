@@ -1,6 +1,6 @@
-# FURU Web Server
+# Furu Web Server
 
-Extremely minimal Web Server
+Extraordinary Web Server
 
 ### Install
 ```
@@ -11,11 +11,13 @@ npm i furu
 ```js
 const server = await furu({ port: 9000 })
 
-server.action = async function(req, res) {
+async function handleRequest(req, res) {
   if (req.pathname == '/hello') {
     return { hello: 'world' }
   }
 }
+
+server.on('request', handleRequest)
 ```
 
 ISC Licensed. Enjoy!
