@@ -21,6 +21,14 @@ console.log({ mode })
 
 const root = process.cwd()
 
+// Scan assets
+function scanAssets(dir) {
+  if (typeof dir != 'string') return
+  const assetPath = path.join(root, dir)
+  const assetList = extras.tree(assetPath).map(x => x.replace(assetPath, ''))
+  return new Set(assetList)
+}
+
 function setContentType(res, type) {
   if (!res.hasHeader('content-type')) {
     res.setHeader('content-type', `${type}; charset=utf-8`)
@@ -139,14 +147,8 @@ module.exports = function(opt, fn) {
     fn = opt
   }
 
-  // Scan assets
-  let assets
-  if (typeof opt.assets == 'string') {
-    const assetPath = path.join(root, opt.assets)
-    const assetList = extras.tree(assetPath).map(x => x.replace(assetPath, ''))
-    assets = new Set(assetList)
-    console.log(assets)
-  }
+  // Store assets as a set
+  const assets = scanAssets(opt.assets)
 
   const server = http.createServer(function(req, res) {
     // Add request properties
