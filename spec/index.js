@@ -9,6 +9,7 @@ async function run() {
   await test('http')
   await test('cookies')
   await test('cors')
+  await test('headers')
 
   console.timeEnd('Test run')
 }
