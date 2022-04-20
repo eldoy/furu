@@ -17,6 +17,18 @@ async function handleRequest(req, res) {
   if (req.method == 'POST' && req.pathname == '/params') {
     return req.params
   }
+
+  // Properties test
+  if (req.method == 'POST' && req.pathname == '/props') {
+    return {
+      file: req.file,
+      ip: req.ip
+    }
+  }
 }
 
-furu({ port: 9090, routes }, handleRequest)
+const server = furu({ port: 9090, routes }, handleRequest)
+
+server.on('error', function(e) {
+  console.log(e)
+})
