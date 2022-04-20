@@ -14,6 +14,8 @@ const bparse = require('bparse')
 const extras = require('extras')
 const wcookie = require('wcookie')
 const rekvest = require('rekvest')
+const router = require('reqroute')
+const lang = require('reqlang')
 
 const mode = process.env.NODE_ENV
 
@@ -53,32 +55,6 @@ function setFile(req) {
   }
 }
 
-// Get language from path
-function getLang(path) {
-  const match = path.match(/^\/([a-z]{2})\//)
-  if (match) return match[1]
-}
-
-// Set up language
-function setLang(req, defaultLang = 'en') {
-  const cookieLang = req.cookie('lang')
-  const lang = req.params?.lang
-    || getLang(req.pathname)
-    || cookieLang
-    || defaultLang
-
-  // Update lang cookie
-  if (cookieLang) {
-    if (cookieLang != lang) {
-      client.req.cookie('lang', lang)
-
-    } else if(cookieLang == defaultLang) {
-      client.req.cookie('lang', null)
-    }
-  }
-  req.lang = lang
-}
-
 function handleResult(req, res, result) {
   // Undefined, null and 0 returns empty string
   if (!result) result = ''
@@ -113,7 +89,7 @@ async function handleRequest(req, res, fn) {
   wcookie(req)
 
   // Set up lang
-  setLang(req)
+  lang(req)
 
   if (req.method == 'GET') {
     setFile(req)
@@ -167,6 +143,11 @@ module.exports = function(opt, fn) {
     // Cors
     if (req.method == 'OPTIONS') {
       return cors(req, res)
+    }
+
+    // Routes
+    if (opt.routes) {
+      router(req, opt.routes)
     }
 
     handleRequest(req, res, fn)
