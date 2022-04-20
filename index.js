@@ -93,11 +93,10 @@ async function handleRequest(req, res, fn) {
 
   if (req.method == 'GET') {
     setFile(req)
-    console.log({ file: req.file })
 
     setContentType(res, 'text/html')
 
-  } else  if (req.method == 'POST') {
+  } else if (req.method == 'POST') {
 
     // Parse body only if POST request
     await bparse(req)
