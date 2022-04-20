@@ -19,7 +19,7 @@ const lang = require('reqlang')
 
 const mode = process.env.NODE_ENV
 
-console.log(`\nStarting ${mode} mode...`)
+console.log(`\nStarting ${mode} mode...\n`)
 
 const root = process.cwd()
 

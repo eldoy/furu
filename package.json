@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "spekky": "^0.1.2",
-    "spett": "^0.1.0"
+    "spett": "^0.1.1"
   }
 }
