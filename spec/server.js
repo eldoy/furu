@@ -12,6 +12,11 @@ async function handleRequest(req, res) {
   if (req.method == 'POST' && req.pathname == '/cookies') {
     req.cookie('name', 'value')
   }
+
+  // Params test
+  if (req.method == 'POST' && req.pathname == '/params') {
+    return req.params
+  }
 }
 
 furu({ port: 9090, routes }, handleRequest)

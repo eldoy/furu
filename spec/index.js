@@ -10,6 +10,7 @@ async function run() {
   await test('cookies')
   await test('cors')
   await test('headers')
+  await test('params')
 
   console.timeEnd('Test run')
 }
