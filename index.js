@@ -140,9 +140,19 @@ async function handleRequest(req, res, opt, fn) {
 
   log(req)
 
+  req.redirect = function(location = '/', status = 302) {
+    res.statusCode = status
+    res.setHeader('location', location)
+    req.redirecting = true
+  }
+
   let result
   if (typeof fn == 'function') {
     result = await fn(req, res)
+  }
+
+  if (req.redirecting) {
+    return res.end('')
   }
 
   // Undefined, null and 0 returns empty string
