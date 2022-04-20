@@ -5,7 +5,7 @@ if (!process.env.NODE_ENV) {
 const http = require('http')
 const fs = require('fs')
 const path = require('path')
-const _ = require('lodash')
+const util = require('util')
 const ws = require('ws')
 const loader = require('conficurse')
 const smor = require('smor')
@@ -19,7 +19,7 @@ const lang = require('reqlang')
 
 const mode = process.env.NODE_ENV
 
-console.log({ mode })
+console.log(`\nStarting ${mode} mode...`)
 
 const root = process.cwd()
 
@@ -53,6 +53,15 @@ function setFile(req) {
   if (req.pathname.endsWith('/')) {
     req.file += 'index'
   }
+}
+
+function log(req) {
+  const options = { showHidden: true, depth: null, colors: true }
+  const lines = [
+    `${req.method}#${req.pathname.slice(1)}`,
+    util.inspect(req.params || {}, options)
+  ]
+  console.log(`${lines.join('\n')}\n`)
 }
 
 module.exports = function(opt, fn) {
@@ -93,15 +102,13 @@ module.exports = function(opt, fn) {
 
   server.listen(opt.port || 9090, () => {
     const port = server.address().port
-    console.log('Web server is listening on port %d', port)
+    console.log(`Listening on port ${port}.\n`)
   })
 
   return server
 }
 
 async function handleRequest(req, res, opt, fn) {
-  console.log({ path: req.pathname })
-
   // Routes
   if (opt.routes) {
     router(req, opt.routes)
@@ -130,6 +137,8 @@ async function handleRequest(req, res, opt, fn) {
   } else {
     res.statusCode = 204
   }
+
+  log(req)
 
   let result
   if (typeof fn == 'function') {
