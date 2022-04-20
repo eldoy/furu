@@ -1,6 +1,24 @@
 # Furu Web Server
 
-Extraordinary Web Server
+Extraordinary Web Server.
+
+Adds what's missing from the built in web server of NodeJS:
+
+* Body parameters and file parsing
+* Cookies
+* Cors
+* Language
+* Redirects
+* Automatic headers
+* Routes
+* Static files
+* Extra properties:
+  - IP address
+  - pathname
+  - protocol
+* And more!
+
+The server is extremely fast and minimal.
 
 ### Install
 ```
