@@ -1,6 +1,8 @@
 const furu = require('../index.js')
 
-const routes = {}
+const routes = {
+  'get#routes': 'hello'
+}
 
 async function handleRequest(req, res) {
   // HTTP test
@@ -29,6 +31,11 @@ async function handleRequest(req, res) {
   // Redirect test
   if (req.method == 'GET' && req.pathname == '/redirect') {
     return req.redirect()
+  }
+
+  // Routes test
+  if (req.method == 'GET' && req.pathname == '/routes') {
+    return req.route
   }
 }
 
