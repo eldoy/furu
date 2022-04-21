@@ -82,7 +82,7 @@ module.exports = function(opt, fn) {
 
     // Return asset if it exists
     if (assets && assets.has(req.pathname)) {
-      return smor(req, res, { dir: 'app/assets' })
+      return smor(req, res, { dir: opt.assets })
     }
 
     // Block favicon requests
