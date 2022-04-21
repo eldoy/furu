@@ -80,11 +80,6 @@ module.exports = function(opt, fn) {
     // Add request properties
     rekvest(req)
 
-    // Return asset if it exists
-    if (assets && assets.has(req.pathname)) {
-      return smor(req, res, { dir: opt.assets })
-    }
-
     // Block favicon requests
     if (req.pathname == '/favicon.ico') {
       return favicon(res)
@@ -93,6 +88,11 @@ module.exports = function(opt, fn) {
     // Cors
     if (req.method == 'OPTIONS') {
       return cors(req, res)
+    }
+
+    // Return asset if it exists
+    if (assets && assets.has(req.pathname)) {
+      return smor(req, res, { dir: opt.assets })
     }
 
     handleRequest(req, res, opt, fn)
