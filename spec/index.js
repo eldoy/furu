@@ -15,6 +15,10 @@ async function run() {
   await test('params')
   await test('props')
   await test('favicon')
+  await test('redirect')
+  // await test('routes')
+  // await test('static')
+  // await test('websocket')
 
   console.timeEnd('Test run')
 }

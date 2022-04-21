@@ -23,9 +23,12 @@ console.log(`\nStarting ${mode} mode...\n`)
 
 const root = process.cwd()
 
-function setContentType(res, type) {
-  if (!res.hasHeader('content-type')) {
-    res.setHeader('content-type', `${type}; charset=utf-8`)
+function setContentType(req, res) {
+  if (req.method == 'GET') {
+    res.setHeader('content-type', `text/html; charset=utf-8`)
+
+  } else if (req.method == 'POST') {
+    res.setHeader('content-type', `application/json; charset=utf-8`)
   }
 }
 
@@ -123,21 +126,6 @@ async function handleRequest(req, res, opt, fn) {
   // Set file
   setFile(req)
 
-  if (req.method == 'GET') {
-
-    setContentType(res, 'text/html')
-
-  } else if (req.method == 'POST') {
-
-    // Parse body only if POST request
-    await bparse(req)
-
-    setContentType(res, 'application/json')
-
-  } else {
-    res.statusCode = 204
-  }
-
   log(req)
 
   req.redirect = function(location = '/', status = 302) {
@@ -146,10 +134,14 @@ async function handleRequest(req, res, opt, fn) {
     req.redirecting = true
   }
 
-  let result
-  if (typeof fn == 'function') {
-    result = await fn(req, res)
+  if (req.method == 'POST') {
+    await bparse(req)
   }
+
+  // Set content type
+  setContentType(req, res)
+
+  let result = await fn(req, res)
 
   if (req.redirecting) {
     return res.end('')

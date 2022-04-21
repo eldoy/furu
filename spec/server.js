@@ -25,6 +25,11 @@ async function handleRequest(req, res) {
       ip: req.ip
     }
   }
+
+  // Redirect test
+  if (req.method == 'GET' && req.pathname == '/redirect') {
+    return req.redirect()
+  }
 }
 
 const server = furu({ port: 9090, routes }, handleRequest)
