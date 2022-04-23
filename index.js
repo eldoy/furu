@@ -74,7 +74,7 @@ module.exports = function(opt, fn) {
   }
 
   // Store assets as a set
-  const assets = getAssets(opt.assets)
+  const assets = getAssets(opt.dir)
 
   const server = http.createServer(function(req, res) {
     // Add request properties
@@ -92,7 +92,7 @@ module.exports = function(opt, fn) {
 
     // Return asset if it exists
     if (assets && assets.has(req.pathname)) {
-      return smor(req, res, { dir: opt.assets })
+      return smor(req, res, { dir: opt.dir })
     }
 
     handleRequest(req, res, opt, fn)
