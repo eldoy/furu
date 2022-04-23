@@ -1,7 +1,7 @@
 const furu = require('../index.js')
 
 const routes = {
-  'get#routes': 'hello'
+  'get#/routes': 'hello'
 }
 
 async function handleRequest(req, res) {
