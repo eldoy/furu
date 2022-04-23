@@ -19,8 +19,6 @@ const lang = require('reqlang')
 
 const mode = process.env.NODE_ENV
 
-console.log(`\nStarting ${mode} mode...\n`)
-
 const root = process.cwd()
 
 function setContentType(req, res) {
@@ -105,7 +103,7 @@ module.exports = function(opt, fn) {
 
   server.listen(opt.port || 9090, () => {
     const port = server.address().port
-    console.log(`Listening on port ${port}.\n`)
+    console.log(`Listening on port ${port} in ${mode} mode.\n`)
   })
 
   return server
