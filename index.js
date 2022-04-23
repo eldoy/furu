@@ -43,8 +43,8 @@ function favicon(res) {
   res.end('')
 }
 
-function cors(req, res) {
-  kross(req, res)
+function cors(req, res, opt) {
+  kross(req, res, opt.cors)
   res.statusCode = 204
   res.end('')
 }
@@ -85,7 +85,7 @@ module.exports = function(opt, fn) {
 
     // Cors
     if (req.method == 'OPTIONS') {
-      return cors(req, res)
+      return cors(req, res, opt)
     }
 
     // Return asset if it exists
