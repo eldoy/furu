@@ -7,6 +7,7 @@ Adds what's missing from the built in web server of NodeJS:
 * Body parameters and file uploads
 * Cookies
 * Cors
+* Middleware
 * Language
 * Redirects
 * Automatic headers

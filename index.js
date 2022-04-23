@@ -124,6 +124,9 @@ async function handleRequest(req, res, opt, fn) {
   // Set file
   setFile(req)
 
+  // Set store
+  req.store = {}
+
   log(req)
 
   req.redirect = function(location = '/', status = 302) {
