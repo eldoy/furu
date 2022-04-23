@@ -17,6 +17,7 @@ async function run() {
   await test('favicon')
   await test('redirect')
   await test('routes')
+  await test('middleware')
 
   console.timeEnd('Test run')
 }

@@ -132,19 +132,40 @@ async function handleRequest(req, res, opt, fn) {
     req.redirecting = true
   }
 
-  if (req.method == 'POST') {
-    await bparse(req)
-  }
-
   // Set content type
   setContentType(req, res)
 
-  let result = await fn(req, res)
+  let result
+
+  // Run middleware
+  if (opt.middleware) {
+    for (const m in opt.middleware) {
+      const mw = opt.middleware[m]
+      if (typeof mw == 'function') {
+        result = await mw(req, res)
+        if (typeof result != 'undefined') {
+          break
+        }
+      }
+    }
+  }
+
+  // Run main function
+  if (typeof result == 'undefined') {
+    if (req.method == 'POST') {
+      await bparse(req)
+    }
+    result = await fn(req, res)
+  }
 
   if (req.redirecting) {
     return res.end('')
   }
 
+  handleResult(req, res, result)
+}
+
+async function handleResult(req, res, result) {
   // Undefined, null and 0 returns empty string
   if (!result) result = ''
 

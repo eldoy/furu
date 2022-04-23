@@ -4,6 +4,14 @@ const routes = {
   'get#/routes': 'hello'
 }
 
+const middleware = {
+  hello: async function(req, res) {
+    if (req.method == 'GET' && req.pathname == '/middle') {
+      return 'middle'
+    }
+  }
+}
+
 async function handleRequest(req, res) {
   // HTTP test
   if (req.method == 'POST' && req.pathname == '/hello') {
@@ -39,7 +47,7 @@ async function handleRequest(req, res) {
   }
 }
 
-const server = furu({ port: 9090, routes }, handleRequest)
+const server = furu({ port: 9090, routes, middleware }, handleRequest)
 
 server.on('error', function(e) {
   console.log(e)
