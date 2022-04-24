@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bparse": "^0.1.9",
+    "extras": "^0.10.6",
     "kross": "^0.2.0",
     "mime-types": "^2.1.35",
     "rekvest": "^0.1.4",
