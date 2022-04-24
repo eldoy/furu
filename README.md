@@ -10,7 +10,8 @@ Adds what's missing from the built in web server of NodeJS:
 * Middleware
 * Language
 * Redirects
-* Automatic headers
+* Mime types
+* Request store
 * Routes
 * Static files
 * Extra properties:
