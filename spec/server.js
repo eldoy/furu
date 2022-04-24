@@ -45,6 +45,11 @@ async function handleRequest(req, res) {
   if (req.method == 'GET' && req.pathname == '/routes') {
     return req.route
   }
+
+  // Mime test
+  if (req.method == 'GET' && req.pathname == '/sitemap.xml') {
+    return '<xml></xml>'
+  }
 }
 
 const server = furu({ port: 9090, routes, middleware }, handleRequest)

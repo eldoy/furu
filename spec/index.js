@@ -18,6 +18,7 @@ async function run() {
   await test('redirect')
   await test('routes')
   await test('middleware')
+  await test('mime')
 
   console.timeEnd('Test run')
 }

@@ -7,11 +7,11 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const ws = require('ws')
+const mime = require('mime-types')
 const loader = require('conficurse')
 const smor = require('smor')
 const kross = require('kross')
 const bparse = require('bparse')
-const extras = require('extras')
 const wcookie = require('wcookie')
 const rekvest = require('rekvest')
 const router = require('reqroute')
@@ -22,12 +22,12 @@ const mode = process.env.NODE_ENV
 const root = process.cwd()
 
 function setContentType(req, res) {
-  if (req.method == 'GET') {
-    res.setHeader('content-type', `text/html; charset=utf-8`)
-
-  } else if (req.method == 'POST') {
-    res.setHeader('content-type', `application/json; charset=utf-8`)
-  }
+  const defaultType = req.method == 'POST'
+    ? 'application/json'
+    : 'text/html'
+  const fileName = req.pathname.split('/').reverse()[0]
+  const type = mime.lookup(fileName) || defaultType
+  res.setHeader('content-type', mime.contentType(type))
 }
 
 // Make asset list

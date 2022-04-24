@@ -11,6 +11,7 @@
   "dependencies": {
     "bparse": "^0.1.9",
     "kross": "^0.2.0",
+    "mime-types": "^2.1.35",
     "rekvest": "^0.1.4",
     "reqlang": "^0.1.0",
     "reqroute": "^0.1.1",
