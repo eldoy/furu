@@ -158,6 +158,7 @@ async function handleRequest(req, res, opt, fn) {
   if (typeof result == 'undefined') {
     if (req.method == 'POST') {
       await bparse(req)
+      extras.transform(req.params)
     }
     result = await fn(req, res)
   }
