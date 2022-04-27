@@ -23,11 +23,11 @@ const mode = process.env.NODE_ENV
 const root = process.cwd()
 
 function setContentType(req, res) {
-  const defaultType = req.method == 'POST'
-    ? 'application/json'
-    : 'text/html'
-  const fileName = req.pathname.split('/').reverse()[0]
-  const type = mime.lookup(fileName) || defaultType
+  const defaultType = req.method == 'POST' ? 'json' : 'html'
+  let [base, ext] = extras.basext(req.pathname)
+  if (!ext) ext = defaultType
+  const fileName = [base, ext].join('.')
+  const type = mime.lookup(fileName) || 'text/plain'
   res.setHeader('content-type', mime.contentType(type))
 }
 
