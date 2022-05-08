@@ -172,7 +172,10 @@ async function handleRequest(req, res, opt, fn) {
 
 async function handleResult(req, res, result) {
   // Undefined, null and 0 returns empty string
-  if (!result) result = ''
+  if (!result) {
+    res.statusCode = 404
+    result = req.method == 'POST' ? '{}' : ''
+  }
 
   // Stringify objects
   if (typeof result == 'object') {

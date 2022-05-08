@@ -1,6 +1,6 @@
 # Furu Web Server
 
-Extraordinary Web Server.
+Extraordinary Javascript Web Server.
 
 Adds what's missing from the built in web server of NodeJS:
 
