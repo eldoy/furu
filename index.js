@@ -128,8 +128,6 @@ async function handleRequest(req, res, opt, fn) {
   // Set store
   req.store = {}
 
-  log(req)
-
   req.redirect = function(location = '/', status = 302) {
     res.statusCode = status
     res.setHeader('location', location)
@@ -160,6 +158,7 @@ async function handleRequest(req, res, opt, fn) {
       await bparse(req)
       extras.transform(req.params)
     }
+    log(req)
     result = await fn(req, res)
   }
 
