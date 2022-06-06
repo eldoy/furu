@@ -8,7 +8,6 @@ const path = require('path')
 const util = require('util')
 const ws = require('ws')
 const mime = require('mime-types')
-const loader = require('conficurse')
 const smor = require('smor')
 const kross = require('kross')
 const bparse = require('bparse')
@@ -44,8 +43,7 @@ function favicon(res) {
   res.end('')
 }
 
-function cors(req, res, opt) {
-  kross(req, res, opt.cors)
+function cors(res) {
   res.statusCode = 204
   res.end('')
 }
@@ -85,8 +83,9 @@ module.exports = function(opt, fn) {
     }
 
     // Cors
+    kross(req, res, opt.cors)
     if (req.method == 'OPTIONS') {
-      return cors(req, res, opt)
+      return cors(res)
     }
 
     // Return asset if it exists
