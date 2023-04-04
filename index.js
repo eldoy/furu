@@ -3,7 +3,6 @@ if (!process.env.NODE_ENV) {
 }
 
 const http = require('http')
-const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const ws = require('ws')
@@ -34,7 +33,7 @@ function setContentType(req, res) {
 function getAssets(dir) {
   if (typeof dir != 'string') return
   const assetPath = path.join(root, dir)
-  const assetList = extras.tree(assetPath).map(x => x.replace(assetPath, ''))
+  const assetList = extras.tree(assetPath).map((x) => x.replace(assetPath, ''))
   return new Set(assetList)
 }
 
@@ -64,7 +63,7 @@ function log(req) {
   console.log(`${lines.join('\n')}\n`)
 }
 
-module.exports = function(opt, fn) {
+module.exports = function (opt, fn) {
   if (typeof opt == 'function') {
     opt = {}
     fn = opt
@@ -73,7 +72,7 @@ module.exports = function(opt, fn) {
   // Store assets as a set
   const assets = getAssets(opt.dir)
 
-  const server = http.createServer(function(req, res) {
+  const server = http.createServer(function (req, res) {
     // Add request properties
     rekvest(req)
 
@@ -127,7 +126,7 @@ async function handleRequest(req, res, opt, fn) {
   // Set store
   req.store = {}
 
-  req.redirect = function(location = '/', status = 302) {
+  req.redirect = function (location = '/', status = 302) {
     res.statusCode = status
     res.setHeader('location', location)
     req.redirecting = true
@@ -179,7 +178,7 @@ async function handleResult(req, res, result) {
   if (typeof result == 'object') {
     try {
       result = JSON.stringify(result)
-    } catch(e) {
+    } catch (e) {
       result = '{}'
     }
   }
