@@ -62,7 +62,7 @@ async function handleRequest(req, res) {
   }
 }
 
-const options = { port: 9095, assets: 'app/assets', routes }
+const options = { port: 9095, dir: 'app/assets', routes }
 
 furu(options, handleRequest)
 ```
