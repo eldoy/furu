@@ -16,8 +16,6 @@ const rekvest = require('rekvest')
 const router = require('reqroute')
 const lang = require('reqlang')
 
-const mode = process.env.NODE_ENV
-
 const root = process.cwd()
 
 function setContentType(req, res) {
@@ -68,6 +66,9 @@ module.exports = function (opt, fn) {
     opt = {}
     fn = opt
   }
+
+  // Set mode
+  const mode = process.env.NODE_ENV
 
   // Store assets as a set
   const assets = getAssets(opt.dir)
