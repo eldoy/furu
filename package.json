@@ -1,6 +1,6 @@
 {
   "name": "furu",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "Extraordinary Web Server",
   "main": "index.js",
   "scripts": {
