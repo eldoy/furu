@@ -51,8 +51,8 @@ const homePage = require('./app/pages/home.js')
 const aboutPage = require('./app/pages/about.js')
 
 const routes = {
-  'get#': homePage,
-  'get#about': aboutPage
+  'get#/': homePage,
+  'get#/about': aboutPage
 }
 
 async function handleRequest(req, res) {
