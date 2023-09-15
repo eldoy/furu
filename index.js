@@ -169,8 +169,8 @@ async function handleRequest(req, res, opt, fn) {
 }
 
 async function handleResult(req, res, result) {
-  // Undefined, null and 0 returns empty string
-  if (!result) {
+  // Undefined and null returns empty string and 404
+  if (result == null) {
     res.statusCode = 404
     result = req.method == 'POST' ? '{}' : ''
   }
