@@ -2,36 +2,36 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
-const http = require('http')
-const path = require('path')
-const util = require('util')
-const ws = require('ws')
-const mime = require('mime-types')
-const smor = require('smor')
-const kross = require('kross')
-const bparse = require('bparse')
-const extras = require('extras')
-const wcookie = require('wcookie')
-const rekvest = require('rekvest')
-const router = require('reqroute')
-const lang = require('reqlang')
+var http = require('http')
+var path = require('path')
+var util = require('util')
+var ws = require('ws')
+var mime = require('mime-types')
+var smor = require('smor')
+var kross = require('kross')
+var bparse = require('bparse')
+var extras = require('extras')
+var wcookie = require('wcookie')
+var rekvest = require('rekvest')
+var router = require('reqroute')
+var lang = require('reqlang')
 
-const root = process.cwd()
+var root = process.cwd()
 
 function setContentType(req, res) {
-  const defaultType = req.method == 'POST' ? 'json' : 'html'
+  var defaultType = req.method == 'POST' ? 'json' : 'html'
   let [base, ext] = extras.basext(req.pathname)
   if (!ext) ext = defaultType
-  const fileName = [base, ext].join('.')
-  const type = mime.lookup(fileName) || 'text/plain'
+  var fileName = [base, ext].join('.')
+  var type = mime.lookup(fileName) || 'text/plain'
   res.setHeader('content-type', mime.contentType(type))
 }
 
 // Make asset list
 function getAssets(dir) {
   if (typeof dir != 'string') return
-  const assetPath = path.join(root, dir)
-  const assetList = extras.tree(assetPath).map((x) => x.replace(assetPath, ''))
+  var assetPath = path.join(root, dir)
+  var assetList = extras.tree(assetPath).map((x) => x.replace(assetPath, ''))
   return new Set(assetList)
 }
 
@@ -52,9 +52,9 @@ function setFile(req) {
   }
 }
 
-function log(req) {
-  const options = { showHidden: true, depth: null, colors: true }
-  const lines = [
+async function log(req) {
+  var options = { showHidden: true, depth: null, colors: true }
+  var lines = [
     `${req.method}#${req.pathname.slice(1)}`,
     util.inspect(req.params || {}, options)
   ]
@@ -68,12 +68,12 @@ module.exports = function (opt, fn) {
   }
 
   // Set mode
-  const mode = process.env.NODE_ENV
+  var mode = process.env.NODE_ENV
 
   // Store assets as a set
-  const assets = getAssets(opt.dir)
+  var assets = getAssets(opt.dir)
 
-  const server = http.createServer(function (req, res) {
+  var server = http.createServer(function (req, res) {
     // Add request properties
     rekvest(req)
 
@@ -102,11 +102,41 @@ module.exports = function (opt, fn) {
   }
 
   server.listen(opt.port || 9090, () => {
-    const port = server.address().port
+    var port = server.address().port
     console.log(`Listening on port ${port} in ${mode} mode.\n`)
   })
 
   return server
+}
+
+function handleResult(req, res, result) {
+  // Undefined and null returns empty string and 404
+  if (result == null) {
+    res.statusCode = 404
+    result = req.method == 'POST' ? '{}' : ''
+  }
+
+  // Stringify objects
+  if (typeof result == 'object') {
+    try {
+      result = JSON.stringify(result)
+    } catch (e) {
+      result = '{}'
+    }
+  }
+
+  // Make sure it's a string
+  result = String(result)
+
+  // Set content length
+  res.setHeader('content-length', Buffer.byteLength(result))
+
+  // Write cookies
+  if (req.cookieJar && req.cookieJar.length) {
+    res.setHeader('set-cookie', req.cookieJar.headers)
+  }
+
+  res.end(result)
 }
 
 async function handleRequest(req, res, opt, fn) {
@@ -140,8 +170,8 @@ async function handleRequest(req, res, opt, fn) {
 
   // Run middleware
   if (opt.middleware) {
-    for (const m in opt.middleware) {
-      const mw = opt.middleware[m]
+    for (var m in opt.middleware) {
+      var mw = opt.middleware[m]
       if (typeof mw == 'function') {
         result = await mw(req, res)
         if (typeof result != 'undefined') {
@@ -166,34 +196,4 @@ async function handleRequest(req, res, opt, fn) {
   }
 
   handleResult(req, res, result)
-}
-
-async function handleResult(req, res, result) {
-  // Undefined and null returns empty string and 404
-  if (result == null) {
-    res.statusCode = 404
-    result = req.method == 'POST' ? '{}' : ''
-  }
-
-  // Stringify objects
-  if (typeof result == 'object') {
-    try {
-      result = JSON.stringify(result)
-    } catch (e) {
-      result = '{}'
-    }
-  }
-
-  // Make sure it's a string
-  result = String(result)
-
-  // Set content length
-  res.setHeader('content-length', Buffer.byteLength(result))
-
-  // Write cookies
-  if (req.cookieJar && req.cookieJar.length) {
-    res.setHeader('set-cookie', req.cookieJar.headers)
-  }
-
-  res.end(result)
 }
