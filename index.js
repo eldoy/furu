@@ -144,8 +144,8 @@ async function handleRequest(req, res, opt, fn) {
   }
 
   // Set content type
-  var contentType = getContentType(req.pathname, req.method)
-  res.setHeader('content-type', contentType)
+  var defaultContentType = getContentType(req.pathname, req.method)
+  res.setHeader('content-type', defaultContentType)
 
   res.stream = function (file, contentType) {
     if (!contentType) {
