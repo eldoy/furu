@@ -166,6 +166,13 @@ async function handleRequest(req, res, opt, fn) {
     return fs.createReadStream(file)
   }
 
+  // Download streamed file
+  res.download = function (file) {
+    var filename = file.split('/').reverse()[0]
+    res.setHeader('content-disposition', `attachment; filename="${filename}"`)
+    return res.stream(file)
+  }
+
   let result
 
   // Run middleware
