@@ -148,6 +148,7 @@ async function handleRequest(req, res, opt, fn) {
   var defaultContentType = getContentType(req.pathname, req.method)
   res.setHeader('content-type', defaultContentType)
 
+  // Pipe local or remote file to response
   res.stream = function (file, contentType) {
     if (!contentType) {
       contentType = getContentType(file, req.method)
