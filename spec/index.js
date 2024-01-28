@@ -1,12 +1,12 @@
 process.env.NODE_ENV = 'test'
 
-const test = require('spekky')
+var test = require('spekky')
 require('./server.js')
 
 async function run() {
   console.time('Test run')
 
-  await new Promise(r => setTimeout(r, 500))
+  await new Promise((r) => setTimeout(r, 500))
 
   await test('http')
   await test('cookies')
@@ -19,6 +19,7 @@ async function run() {
   await test('routes')
   await test('middleware')
   await test('mime')
+  await test('stream')
 
   console.timeEnd('Test run')
 }

@@ -1,10 +1,11 @@
-const assert = require('assert')
-const request = require('spett')
+var assert = require('assert')
+var request = require('spett')
 
-const it = {}, x = {}
+var it = {},
+  x = {}
 
-it['should support redirects'] = async function() {
-  const { data, code, res } = await request({
+it['should support redirects'] = async function () {
+  var { data, code, res } = await request({
     path: '/redirect',
     method: 'GET'
   })

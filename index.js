@@ -2,9 +2,11 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
-var http = require('http')
-var path = require('path')
-var util = require('util')
+var http = require('node:http')
+var fs = require('node:fs')
+var path = require('node:path')
+var util = require('node:util')
+var stream = require('node:stream')
 var ws = require('ws')
 var mime = require('mime-types')
 var smor = require('smor')
@@ -18,13 +20,13 @@ var lang = require('reqlang')
 
 var root = process.cwd()
 
-function setContentType(req, res) {
-  var defaultType = req.method == 'POST' ? 'json' : 'html'
-  let [base, ext] = extras.basext(req.pathname)
+function getContentType(pathname, method = 'GET') {
+  var defaultType = method == 'GET' ? 'html' : 'json'
+  let [base, ext] = extras.basext(pathname)
   if (!ext) ext = defaultType
   var fileName = [base, ext].join('.')
   var type = mime.lookup(fileName) || 'text/plain'
-  res.setHeader('content-type', mime.contentType(type))
+  return mime.contentType(type)
 }
 
 // Make asset list
@@ -33,6 +35,14 @@ function getAssets(dir) {
   var assetPath = path.join(root, dir)
   var assetList = extras.tree(assetPath).map((x) => x.replace(assetPath, ''))
   return new Set(assetList)
+}
+
+function isReadableStream(obj) {
+  return (
+    obj instanceof stream.Stream &&
+    typeof (obj._read === 'function') &&
+    typeof (obj._readableState === 'object')
+  )
 }
 
 function favicon(res) {
@@ -109,36 +119,6 @@ module.exports = function (opt, fn) {
   return server
 }
 
-function handleResult(req, res, result) {
-  // Undefined and null returns empty string and 404
-  if (result == null) {
-    res.statusCode = 404
-    result = req.method == 'POST' ? '{}' : ''
-  }
-
-  // Stringify objects
-  if (typeof result == 'object') {
-    try {
-      result = JSON.stringify(result)
-    } catch (e) {
-      result = '{}'
-    }
-  }
-
-  // Make sure it's a string
-  result = String(result)
-
-  // Set content length
-  res.setHeader('content-length', Buffer.byteLength(result))
-
-  // Write cookies
-  if (req.cookieJar && req.cookieJar.length) {
-    res.setHeader('set-cookie', req.cookieJar.headers)
-  }
-
-  res.end(result)
-}
-
 async function handleRequest(req, res, opt, fn) {
   // Routes
   if (opt.routes) {
@@ -164,7 +144,16 @@ async function handleRequest(req, res, opt, fn) {
   }
 
   // Set content type
-  setContentType(req, res)
+  var contentType = getContentType(req.pathname, req.method)
+  res.setHeader('content-type', contentType)
+
+  res.stream = function (file, contentType) {
+    if (!contentType) {
+      contentType = getContentType(file, req.method)
+    }
+    res.setHeader('content-type', contentType)
+    return fs.createReadStream(file)
+  }
 
   let result
 
@@ -196,4 +185,38 @@ async function handleRequest(req, res, opt, fn) {
   }
 
   handleResult(req, res, result)
+}
+
+function handleResult(req, res, result) {
+  if (isReadableStream(result)) {
+    return result.pipe(res)
+  }
+
+  // Undefined and null returns empty string and 404
+  if (result == null) {
+    res.statusCode = 404
+    result = req.method == 'POST' ? '{}' : ''
+  }
+
+  // Stringify objects
+  if (typeof result == 'object') {
+    try {
+      result = JSON.stringify(result)
+    } catch (e) {
+      result = '{}'
+    }
+  }
+
+  // Make sure it's a string
+  result = String(result)
+
+  // Set content length
+  res.setHeader('content-length', Buffer.byteLength(result))
+
+  // Write cookies
+  if (req.cookieJar && req.cookieJar.length) {
+    res.setHeader('set-cookie', req.cookieJar.headers)
+  }
+
+  res.end(result)
 }

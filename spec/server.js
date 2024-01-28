@@ -1,11 +1,12 @@
-const furu = require('../index.js')
+var path = require('node:path')
+var furu = require('../index.js')
 
-const routes = {
+var routes = {
   'get#/routes': 'hello'
 }
 
-const middleware = {
-  hello: async function(req, res) {
+var middleware = {
+  hello: async function (req, res) {
     if (req.method == 'GET' && req.pathname == '/middle') {
       return 'middle'
     }
@@ -50,10 +51,16 @@ async function handleRequest(req, res) {
   if (req.method == 'GET' && req.pathname == '/sitemap.xml') {
     return '<xml></xml>'
   }
+
+  // Pipe test
+  if (req.pathname == '/pipe') {
+    var file = path.join(process.cwd(), 'spec', 'files', 'body.json')
+    return res.stream(file)
+  }
 }
 
-const server = furu({ port: 9090, routes, middleware }, handleRequest)
+var server = furu({ port: 9090, routes, middleware }, handleRequest)
 
-server.on('error', function(e) {
+server.on('error', function (e) {
   console.log(e)
 })

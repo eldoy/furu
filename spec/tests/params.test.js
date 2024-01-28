@@ -1,10 +1,11 @@
-const assert = require('assert')
-const request = require('spett')
+var assert = require('assert')
+var request = require('spett')
 
-const it = {}, x = {}
+var it = {},
+  x = {}
 
-it['should read body params'] = async function() {
-  const { data, code, res } = await request({
+it['should read body params'] = async function () {
+  var { data, code, res } = await request({
     path: '/params',
     params: {
       hello: 'world'

@@ -40,29 +40,29 @@ async function handleRequest(req, res) {
 }
 
 // The server object is a vanilla NodeJS HTTP server
-const server = furu({ port: 9000 }, handleRequest)
+var server = furu({ port: 9000 }, handleRequest)
 ```
 
 More advanced example with pages, layouts and assets:
 ```js
-const furu = require('furu')
-const layout = require('./app/layouts/main.js')
-const homePage = require('./app/pages/home.js')
-const aboutPage = require('./app/pages/about.js')
+var furu = require('furu')
+var layout = require('./app/layouts/main.js')
+var homePage = require('./app/pages/home.js')
+var aboutPage = require('./app/pages/about.js')
 
-const routes = {
+var routes = {
   'get#/': homePage,
   'get#/about': aboutPage
 }
 
 async function handleRequest(req, res) {
   if (req.route) {
-    const html = await req.route(req, res)
+    var html = await req.route(req, res)
     return layout(html)
   }
 }
 
-const options = { port: 9095, dir: 'app/assets', routes }
+var options = { port: 9095, dir: 'app/assets', routes }
 
 furu(options, handleRequest)
 ```

@@ -1,28 +1,35 @@
-const assert = require('assert')
-const request = require('spett')
+var assert = require('assert')
+var request = require('spett')
 
-const it = {}, x = {}
+var it = {},
+  x = {}
 
-it['should return empty from post not found'] = async function() {
-  const { data, code, res } = await request({
+it['should return empty from post not found'] = async function () {
+  var { data, code, res } = await request({
     path: '/none'
   })
-  assert.deepEqual(res.headers['content-type'], 'application/json; charset=utf-8')
+  assert.deepEqual(
+    res.headers['content-type'],
+    'application/json; charset=utf-8'
+  )
   assert.deepEqual(code, 404)
   assert.deepEqual(data, {})
 }
 
-it['should return data from post existing path'] = async function() {
-  const { data, code, res } = await request({
+it['should return data from post existing path'] = async function () {
+  var { data, code, res } = await request({
     path: '/hello'
   })
-  assert.deepEqual(res.headers['content-type'], 'application/json; charset=utf-8')
+  assert.deepEqual(
+    res.headers['content-type'],
+    'application/json; charset=utf-8'
+  )
   assert.deepEqual(code, 200)
   assert.deepEqual(data.hello, 'world')
 }
 
-it['should return empty string from get not found'] = async function() {
-  const { data, code, res } = await request({
+it['should return empty string from get not found'] = async function () {
+  var { data, code, res } = await request({
     path: '/not-found',
     method: 'GET'
   })

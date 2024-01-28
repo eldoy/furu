@@ -1,10 +1,11 @@
-const assert = require('assert')
-const request = require('spett')
+var assert = require('assert')
+var request = require('spett')
 
-const it = {}, x = {}
+var it = {},
+  x = {}
 
-it['should block favicon requests'] = async function() {
-  const { data, code, res } = await request({
+it['should block favicon requests'] = async function () {
+  var { data, code, res } = await request({
     path: '/favicon.ico'
   })
   assert.equal(code, '404')
