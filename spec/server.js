@@ -52,9 +52,15 @@ async function handleRequest(req, res) {
     return '<xml></xml>'
   }
 
-  // Pipe test
-  if (req.pathname == '/pipe') {
+  // Pipe local test
+  if (req.pathname == '/pipelocal') {
     var file = path.join(process.cwd(), 'spec', 'files', 'body.json')
+    return res.stream(file)
+  }
+
+  // Pipe remote test
+  if (req.pathname == '/piperemote') {
+    var file = 'https://7ino.s3.amazonaws.com/body-s7y5fk.json'
     return res.stream(file)
   }
 }

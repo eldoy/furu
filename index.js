@@ -3,6 +3,7 @@ if (!process.env.NODE_ENV) {
 }
 
 var http = require('node:http')
+var https = require('node:https')
 var fs = require('node:fs')
 var path = require('node:path')
 var util = require('node:util')
@@ -152,6 +153,15 @@ async function handleRequest(req, res, opt, fn) {
       contentType = getContentType(file, req.method)
     }
     res.setHeader('content-type', contentType)
+
+    if (/^https?:\/\//.test(file)) {
+      var client = file.startsWith('https') ? https : http
+      return new Promise(function (resolve) {
+        client.get(file, function (response) {
+          resolve(response)
+        })
+      })
+    }
     return fs.createReadStream(file)
   }
 
