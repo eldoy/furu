@@ -68,3 +68,5 @@ furu(options, handleRequest)
 ```
 
 ISC Licensed. Enjoy!
+
+Created by [Eldøy Projects](https://eldoy.com)
