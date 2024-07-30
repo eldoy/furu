@@ -1,25 +1,26 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should support cors'] = async function () {
-  var { data, code, res } = await request({
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090',
     method: 'OPTIONS',
     headers: {
       origin: 'localhost:9090'
     }
   })
-  assert.equal(code, '204')
-  assert.equal(res.headers['access-control-allow-origin'], 'localhost:9090')
-  assert.equal(res.headers['access-control-allow-credentials'], 'true')
+  assert.equal(status, '204')
+  assert.equal(headers['access-control-allow-origin'], 'localhost:9090')
+  assert.equal(headers['access-control-allow-credentials'], 'true')
   assert.equal(
-    res.headers['access-control-allow-headers'],
+    headers['access-control-allow-headers'],
     'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control'
   )
   assert.equal(
-    res.headers['access-control-allow-methods'],
+    headers['access-control-allow-methods'],
     'GET, POST, OPTIONS, PUT, PATCH, DELETE'
   )
 }

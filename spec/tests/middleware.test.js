@@ -1,12 +1,12 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should support middleware'] = async function () {
-  var { data, code, res } = await request({
-    path: '/middle',
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/middle',
     method: 'GET'
   })
   assert.equal(data, 'middle')

@@ -1,13 +1,14 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should read body params'] = async function () {
-  var { data, code, res } = await request({
-    path: '/params',
-    params: {
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/params',
+    method: 'POST',
+    data: {
       hello: 'world'
     }
   })

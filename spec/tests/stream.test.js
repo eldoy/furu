@@ -1,32 +1,26 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should stream local file content'] = async function () {
-  var { data, code, res } = await request({
-    method: 'get',
-    path: '/pipelocal'
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/pipelocal',
+    method: 'GET'
   })
-  assert.deepEqual(
-    res.headers['content-type'],
-    'application/json; charset=utf-8'
-  )
-  assert.deepEqual(code, 200)
+  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
+  assert.deepEqual(status, 200)
   assert.deepEqual(data, { hello: 'local' })
 }
 
 it['should stream remote file content'] = async function () {
-  var { data, code, res } = await request({
-    method: 'GET',
-    path: '/piperemote'
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/piperemote',
+    method: 'GET'
   })
-  assert.deepEqual(
-    res.headers['content-type'],
-    'application/json; charset=utf-8'
-  )
-  assert.deepEqual(code, 200)
+  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
+  assert.deepEqual(status, 200)
   assert.deepEqual(data, { hello: 'world' })
 }
 

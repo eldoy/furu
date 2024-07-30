@@ -52,6 +52,16 @@ async function handleRequest(req, res) {
     return '<xml></xml>'
   }
 
+  // Head test with content
+  if (req.method == 'HEAD' && req.pathname == '/headresult') {
+    return { empty: 1 }
+  }
+
+  // Head test empty response
+  if (req.method == 'HEAD' && req.pathname == '/headempty') {
+    return
+  }
+
   // Pipe local test
   if (req.pathname == '/pipelocal') {
     var file = path.join(process.cwd(), 'spec', 'files', 'body.json')

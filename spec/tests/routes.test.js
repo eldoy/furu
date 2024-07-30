@@ -1,12 +1,12 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should support routes'] = async function () {
-  var { data, code, res } = await request({
-    path: '/routes',
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/routes',
     method: 'GET'
   })
   assert.equal(data, 'hello')

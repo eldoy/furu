@@ -1,16 +1,16 @@
 var assert = require('assert')
-var request = require('spett')
+var request = require('pulli')
 
 var it = {},
   x = {}
 
 it['should support redirects'] = async function () {
-  var { data, code, res } = await request({
-    path: '/redirect',
-    method: 'GET'
+  var { data, status, headers } = await request({
+    url: 'http://localhost:9090/redirect',
+    maxRedirects: 0
   })
-  assert.equal(code, '302')
-  assert.equal(res.headers.location, '/')
+  assert.equal(status, '302')
+  assert.equal(headers.location, '/')
 }
 
 module.exports = it

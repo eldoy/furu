@@ -21,7 +21,7 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "spekky": "^0.1.3",
-    "spett": "^0.1.2"
+    "pulli": "^0.1.2",
+    "spekky": "^0.1.3"
   }
 }

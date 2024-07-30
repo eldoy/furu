@@ -206,6 +206,10 @@ async function handleRequest(req, res, opt, fn) {
 }
 
 function handleResult(req, res, result) {
+  if (req.method == 'HEAD') {
+    result = ''
+  }
+
   if (isReadableStream(result)) {
     return result.pipe(res)
   }
