@@ -9,7 +9,7 @@ it['should support extra properties'] = async function () {
     path: '/props'
   })
   assert.equal(data.file, 'props')
-  assert.equal(data.ip, '::ffff:127.0.0.1')
+  assert.equal(data.ip, '::1')
 }
 
 module.exports = it
