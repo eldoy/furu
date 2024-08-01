@@ -9,7 +9,7 @@
   "author": "Vidar Eldøy <vidar@eldoy.com>",
   "license": "ISC",
   "dependencies": {
-    "bparse": "^0.3.0",
+    "bparse": "^0.3.1",
     "extras": "^0.13.5",
     "kross": "^0.2.2",
     "mime-types": "^2.1.35",
