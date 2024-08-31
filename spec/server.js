@@ -42,6 +42,12 @@ async function handleRequest(req, res) {
     return req.redirect()
   }
 
+  // Redirect test
+  if (req.method == 'GET' && req.pathname == '/redirectcookies') {
+    req.cookie('name', 'value')
+    return req.redirect()
+  }
+
   // Routes test
   if (req.method == 'GET' && req.pathname == '/routes') {
     return req.route

@@ -198,6 +198,11 @@ async function handleRequest(req, res, opt, fn) {
     result = await fn(req, res)
   }
 
+  // Write cookies
+  if (req.cookieJar && req.cookieJar.length) {
+    res.setHeader('set-cookie', req.cookieJar.headers)
+  }
+
   if (req.redirecting) {
     return res.end('')
   }
@@ -234,11 +239,6 @@ function handleResult(req, res, result) {
 
   // Set content length
   res.setHeader('content-length', Buffer.byteLength(result))
-
-  // Write cookies
-  if (req.cookieJar && req.cookieJar.length) {
-    res.setHeader('set-cookie', req.cookieJar.headers)
-  }
 
   res.end(result)
 }
