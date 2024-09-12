@@ -4,13 +4,14 @@
   "description": "Extraordinary Web Server",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon spec/index.js"
+    "test": "nodemon --exec spekk",
+    "serve:test": "nodemon spec/server.js"
   },
   "author": "Vidar Eldøy <vidar@eldoy.com>",
   "license": "ISC",
   "dependencies": {
     "bparse": "^0.4.0",
-    "extras": "^0.14.2",
+    "extras": "^0.15.0",
     "kross": "^0.2.2",
     "mime-types": "^2.1.35",
     "rekvest": "^0.1.7",
@@ -19,9 +20,5 @@
     "smor": "^0.1.1",
     "wcookie": "^0.4.3",
     "ws": "^8.18.0"
-  },
-  "devDependencies": {
-    "pulli": "^0.1.4",
-    "spekky": "^0.1.3"
   }
 }

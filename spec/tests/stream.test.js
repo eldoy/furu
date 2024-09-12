@@ -1,27 +1,25 @@
-var assert = require('assert')
-var request = require('pulli')
-
-var it = {},
-  x = {}
-
-it['should stream local file content'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/pipelocal',
+it('should stream local file content', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/pipelocal', {
     method: 'GET'
   })
-  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
-  assert.deepEqual(status, 200)
-  assert.deepEqual(data, { hello: 'local' })
-}
+  var data = await response.json()
+  t.deepEqual(
+    response.headers.get('content-type'),
+    'application/json; charset=utf-8'
+  )
+  t.deepEqual(response.status, 200)
+  t.deepEqual(data, { hello: 'local' })
+})
 
-it['should stream remote file content'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/piperemote',
+it('should stream remote file content', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/piperemote', {
     method: 'GET'
   })
-  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
-  assert.deepEqual(status, 200)
-  assert.deepEqual(data, { hello: 'world' })
-}
-
-module.exports = it
+  var data = await response.json()
+  t.deepEqual(
+    response.headers.get('content-type'),
+    'application/json; charset=utf-8'
+  )
+  t.deepEqual(response.status, 200)
+  t.deepEqual(data, { hello: 'world' })
+})

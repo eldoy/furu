@@ -1,26 +1,16 @@
-var assert = require('assert')
-var request = require('pulli')
-
-var it = {},
-  x = {}
-
-it['should support redirects'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/redirect',
-    maxRedirects: 0
+it('should support redirects', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/redirect', {
+    redirect: 'manual'
   })
-  assert.equal(status, '302')
-  assert.equal(headers.location, '/')
-}
+  t.equal(response.status, 302)
+  t.equal(response.headers.get('location'), '/')
+})
 
-it['should support redirects with cookies'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/redirectcookies',
-    maxRedirects: 0
+it('should support redirects with cookies', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/redirectcookies', {
+    redirect: 'manual'
   })
-  assert.ok(headers['set-cookie'][0].startsWith('name=value'))
-  assert.equal(status, '302')
-  assert.equal(headers.location, '/')
-}
-
-module.exports = it
+  t.ok(response.headers.get('set-cookie').startsWith('name=value'))
+  t.equal(response.status, '302')
+  t.equal(response.headers.get('location'), '/')
+})

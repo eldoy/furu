@@ -1,37 +1,35 @@
-var assert = require('assert')
-var request = require('pulli')
-
-var it = {},
-  x = {}
-
-it['should return empty from post not found'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/none',
+it('should return empty from post not found', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/none', {
     method: 'POST'
   })
-  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
-  assert.deepEqual(status, 404)
-  assert.deepEqual(data, {})
-}
+  var data = await response.json()
+  t.deepEqual(
+    response.headers.get('content-type'),
+    'application/json; charset=utf-8'
+  )
+  t.deepEqual(response.status, 404)
+  t.deepEqual(data, {})
+})
 
-it['should return data from post existing path'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/hello',
+it('should return data from post existing path', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/hello', {
     method: 'POST'
   })
-  assert.deepEqual(headers['content-type'], 'application/json; charset=utf-8')
-  assert.deepEqual(status, 200)
-  assert.deepEqual(data.hello, 'world')
-}
+  var data = await response.json()
+  t.deepEqual(
+    response.headers.get('content-type'),
+    'application/json; charset=utf-8'
+  )
+  t.deepEqual(response.status, 200)
+  t.deepEqual(data.hello, 'world')
+})
 
-it['should return empty string from get not found'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/not-found',
+it('should return empty string from get not found', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/not-found', {
     method: 'GET'
   })
-  assert.deepEqual(headers['content-type'], 'text/html; charset=utf-8')
-  assert.deepEqual(status, 404)
-  assert.deepEqual(data, '')
-}
-
-module.exports = it
+  var data = await response.text()
+  t.deepEqual(response.headers.get('content-type'), 'text/html; charset=utf-8')
+  t.deepEqual(response.status, 404)
+  t.deepEqual(data, '')
+})

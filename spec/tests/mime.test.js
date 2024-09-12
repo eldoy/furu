@@ -1,16 +1,8 @@
-var assert = require('assert')
-var request = require('pulli')
-
-var it = {},
-  x = {}
-
-it['should support xml files'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/sitemap.xml',
+it('should support xml files', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/sitemap.xml', {
     method: 'GET'
   })
-  assert.equal(data, '<xml></xml>')
-  assert.equal(headers['content-type'], 'application/xml')
-}
-
-module.exports = it
+  var data = await response.text()
+  t.equal(data, '<xml></xml>')
+  t.equal(response.headers.get('content-type'), 'application/xml')
+})

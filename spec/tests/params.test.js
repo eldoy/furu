@@ -1,18 +1,13 @@
-var assert = require('assert')
-var request = require('pulli')
-
-var it = {},
-  x = {}
-
-it['should read body params'] = async function () {
-  var { data, status, headers } = await request({
-    url: 'http://localhost:9090/params',
+it('should read body params', async ({ t }) => {
+  var response = await fetch('http://localhost:9090/params', {
     method: 'POST',
-    data: {
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
       hello: 'world'
-    }
+    })
   })
-  assert.equal(data.hello, 'world')
-}
-
-module.exports = it
+  var data = await response.json()
+  t.equal(data.hello, 'world')
+})
