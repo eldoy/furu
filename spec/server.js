@@ -29,6 +29,11 @@ async function handleRequest(req, res) {
     return req.params
   }
 
+  // Transform test
+  if (req.method == 'POST' && req.pathname == '/transform') {
+    return { type: typeof req.params.values.date }
+  }
+
   // Properties test
   if (req.method == 'POST' && req.pathname == '/props') {
     return {
